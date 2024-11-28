@@ -7,6 +7,20 @@ app.set("views", "./views"); // Default views
 
 app.use(express.urlencoded({ extended: true })); // Middleware
 
+//Part 2
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} request to ${req.url}`);
+  next(); // Pass control to the next middleware or route
+});
+let requestCount = 0;
+
+app.use((req, res, next) => {
+  requestCount++;
+  console.log(`Total requests so far: ${requestCount}`);
+  next();
+});
+
 const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
